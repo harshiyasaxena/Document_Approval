@@ -1,10 +1,19 @@
 import { Outlet } from 'react-router-dom';
 import PublicNavbar from './PublicNavbar';
 import Footer from './Footer';
+import backgroundImage from "../images/bg_public.jpg";
 
 function PublicLayout() {
   return (
-    <>
+     <div
+          style={{
+            minHeight: "100vh",
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
       <PublicNavbar />
 
       <main
@@ -19,8 +28,9 @@ function PublicLayout() {
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
 
 export default PublicLayout;
+
