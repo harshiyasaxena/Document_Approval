@@ -6,7 +6,7 @@ import dashboardIcon from "../images/home-button.png";
 import rolesIcon from "../images/delegation.png";
 import approversIcon from "../images/approve.png";
 import logoutIcon from "../images/user-logout.png";
-import backgroundImage from "../images/background.jpg";
+import backgroundImage from "../images/bg_public.jpg";
 
 function AdminLayout() {
   const [menuOpen, setMenuOpen] = useState(false);

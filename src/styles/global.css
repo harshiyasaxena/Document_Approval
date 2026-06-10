@@ -637,3 +637,106 @@ img {
     order: 2;
   }
 }
+.documents-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.documents-scroll::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.documents-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2563eb, #7c3aed);
+  border-radius: 10px;
+}
+
+.documents-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1d4ed8, #6d28d9);
+}
+.documents-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #e2e8f0;
+}
+@keyframes blinkBorder {
+  0% {
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.28);
+  }
+  100% {
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+  }
+}
+@media (max-width: 500px) {
+  .actions-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .actions-buttons {
+    justify-content: center !important;
+    width: 100% !important;
+    flex-direction: column !important;
+  }
+
+  .actions-buttons button {
+    width: 100% !important;
+  }
+}
+.approval-timeline-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #e2e8f0;
+}
+
+.approval-timeline-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.approval-timeline-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.approval-timeline-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2563eb, #7c3aed);
+  border-radius: 999px;
+}
+
+.approval-timeline-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1d4ed8, #6d28d9);
+}
+.comments-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #e2e8f0;
+}
+
+.comments-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.comments-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.comments-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2563eb, #7c3aed);
+  border-radius: 999px;
+}
+
+.comments-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1d4ed8, #6d28d9);
+}
+@media (max-width: 768px) {
+  .chart-summary-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .chart-summary-stats {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+}
