@@ -14,8 +14,14 @@ const authenticate = async (req, res, next) => {
 
     const pool = getPool();
     const result = await pool.request()
-      .input('id', sql.Int, decoded.id)
-      .query('SELECT id, name, email, role FROM users WHERE id = @id');
+      .input('id', sql.BigInt, decoded.id)
+      .query(`
+        SELECT u.UserId as id, u.FullName as name, u.Email as email, r.RoleName as role
+        FROM Users u
+        LEFT JOIN UserRoles ur ON u.UserId = ur.UserId
+        LEFT JOIN Roles r ON ur.RoleId = r.RoleId
+        WHERE u.UserId = @id AND u.IsActive = 1
+      `);
 
     if (result.recordset.length === 0) {
       return res.status(401).json({ message: 'User not found' });

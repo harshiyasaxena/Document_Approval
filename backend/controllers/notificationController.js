@@ -1,16 +1,30 @@
 const { getPool, sql } = require('../config/db');
 
+// Note: The current DB schema doesn't have a Notifications table.
+// These endpoints will work once a Notifications table is added.
+// For now, they return empty/success responses gracefully.
+
 // GET /api/notifications
 const getNotifications = async (req, res) => {
   try {
     const pool = getPool();
+
+    // Check if Notifications table exists
+    const tableCheck = await pool.request().query(`
+      SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Notifications'
+    `);
+
+    if (tableCheck.recordset.length === 0) {
+      return res.json([]);
+    }
+
     const result = await pool.request()
-      .input('userId', sql.Int, req.user.id)
+      .input('userId', sql.BigInt, req.user.id)
       .query(`
-        SELECT n.id, n.message, n.is_read as isRead, n.document_id as documentId, n.created_at as createdAt
-        FROM notifications n
-        WHERE n.user_id = @userId
-        ORDER BY n.created_at DESC
+        SELECT Id as id, Message as message, IsRead as isRead, DocumentId as documentId, CreatedAt as createdAt
+        FROM Notifications
+        WHERE UserId = @userId
+        ORDER BY CreatedAt DESC
       `);
 
     res.json(result.recordset);
@@ -30,14 +44,23 @@ const createNotification = async (req, res) => {
     }
 
     const pool = getPool();
+
+    const tableCheck = await pool.request().query(`
+      SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Notifications'
+    `);
+
+    if (tableCheck.recordset.length === 0) {
+      return res.status(201).json({ id: 0, message, isRead: false, documentId, createdAt: new Date() });
+    }
+
     const result = await pool.request()
-      .input('userId', sql.Int, userId)
-      .input('message', sql.Text, message)
-      .input('documentId', sql.Int, documentId || null)
+      .input('userId', sql.BigInt, userId)
+      .input('message', sql.NVarChar, message)
+      .input('documentId', sql.BigInt, documentId || null)
       .query(`
-        INSERT INTO notifications (user_id, message, document_id)
-        OUTPUT INSERTED.id, INSERTED.message, INSERTED.is_read as isRead, 
-               INSERTED.document_id as documentId, INSERTED.created_at as createdAt
+        INSERT INTO Notifications (UserId, Message, DocumentId)
+        OUTPUT INSERTED.Id as id, INSERTED.Message as message, INSERTED.IsRead as isRead,
+               INSERTED.DocumentId as documentId, INSERTED.CreatedAt as createdAt
         VALUES (@userId, @message, @documentId)
       `);
 
@@ -54,10 +77,18 @@ const markAsRead = async (req, res) => {
     const { id } = req.params;
     const pool = getPool();
 
+    const tableCheck = await pool.request().query(`
+      SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Notifications'
+    `);
+
+    if (tableCheck.recordset.length === 0) {
+      return res.json({ message: 'Notification marked as read' });
+    }
+
     await pool.request()
-      .input('id', sql.Int, id)
-      .input('userId', sql.Int, req.user.id)
-      .query(`UPDATE notifications SET is_read = 1 WHERE id = @id AND user_id = @userId`);
+      .input('id', sql.BigInt, id)
+      .input('userId', sql.BigInt, req.user.id)
+      .query(`UPDATE Notifications SET IsRead = 1 WHERE Id = @id AND UserId = @userId`);
 
     res.json({ message: 'Notification marked as read' });
   } catch (err) {
@@ -71,9 +102,17 @@ const markAllAsRead = async (req, res) => {
   try {
     const pool = getPool();
 
+    const tableCheck = await pool.request().query(`
+      SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Notifications'
+    `);
+
+    if (tableCheck.recordset.length === 0) {
+      return res.json({ message: 'All notifications marked as read' });
+    }
+
     await pool.request()
-      .input('userId', sql.Int, req.user.id)
-      .query(`UPDATE notifications SET is_read = 1 WHERE user_id = @userId`);
+      .input('userId', sql.BigInt, req.user.id)
+      .query(`UPDATE Notifications SET IsRead = 1 WHERE UserId = @userId`);
 
     res.json({ message: 'All notifications marked as read' });
   } catch (err) {
@@ -88,10 +127,18 @@ const deleteNotification = async (req, res) => {
     const { id } = req.params;
     const pool = getPool();
 
+    const tableCheck = await pool.request().query(`
+      SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Notifications'
+    `);
+
+    if (tableCheck.recordset.length === 0) {
+      return res.json({ message: 'Notification deleted' });
+    }
+
     await pool.request()
-      .input('id', sql.Int, id)
-      .input('userId', sql.Int, req.user.id)
-      .query(`DELETE FROM notifications WHERE id = @id AND user_id = @userId`);
+      .input('id', sql.BigInt, id)
+      .input('userId', sql.BigInt, req.user.id)
+      .query(`DELETE FROM Notifications WHERE Id = @id AND UserId = @userId`);
 
     res.json({ message: 'Notification deleted' });
   } catch (err) {
