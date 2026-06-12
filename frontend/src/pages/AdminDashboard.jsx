@@ -5,7 +5,8 @@ import pendingIcon from "../images/pending.png";
 import approvedIcon from "../images/approve.png";
 import rejectedIcon from "../images/rejected.png";
 import revisionIcon from "../images/revision.png";
-
+import { FiUser, FiFolder, FiCalendar } from "react-icons/fi";
+ 
 function AdminDashboard() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
@@ -34,39 +35,47 @@ function AdminDashboard() {
       bg: "rgba(245, 158, 11, 0.12)",
     },
   ];
-
+ 
   const documents = [
-    {
-      title: "Project Proposal",
-      status: "Pending Approval",
-      owner: "John Doe",
-    },
-    {
-      title: "Budget Request",
-      status: "Approved",
-      owner: "Sarah Khan",
-    },
-    {
-      title: "Policy Document",
-      status: "Revision Required",
-      owner: "Ali Ahmed",
-    },
-    {
-      title: "Vendor Contract",
-      status: "Rejected",
-      owner: "Michael Scott",
-    },
-  ];
+  {
+    title: "Project Name 1",
+    status: "Pending Approval",
+    owner: "John Doe",
+    category: "Project Proposal",
+    date: "Today",
+  },
+  {
+    title: "Project Name 2",
+    status: "Approved",
+    owner: "Sarah Khan",
+    category: "Budget Request",
+    date: "Yesterday",
+  },
+  {
+    title: "Project Name 3",
+    status: "Revision Required",
+    owner: "Ali Ahmed",
+    category: "Policy Document",
+    date: "2 days ago",
+  },
+  {
+    title: "Project Name 4",
+    status: "Rejected",
+    owner: "Michael Scott",
+    category: "Vendor Contract",
+    date: "3 days ago",
+  },
+];
   const filteredDocuments = documents.filter((doc) => {
     const matchesSearch =
       doc.title.toLowerCase().includes(search.toLowerCase()) ||
       doc.owner.toLowerCase().includes(search.toLowerCase());
-
+ 
     const matchesFilter = filter === "All" || doc.status === filter;
-
+ 
     return matchesSearch && matchesFilter;
   });
-
+ 
   const summaryStats = [
     {
       label: "Pending Approval",
@@ -97,7 +106,7 @@ function AdminDashboard() {
       icon: revisionIcon,
     },
   ];
-
+ 
   const getStatusStyle = (status) => {
     if (status === "Approved" || status === "Active") {
       return { bg: "rgba(22, 163, 74, 0.12)", color: "#16a34a" };
@@ -107,7 +116,7 @@ function AdminDashboard() {
     }
     return { bg: "rgba(220, 38, 38, 0.12)", color: "#dc2626" };
   };
-
+ 
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
@@ -128,7 +137,7 @@ function AdminDashboard() {
           Manage users, approvers, document workflows, and system activity.
         </p>
       </div>
-
+ 
       {/* Stats */}
       <div
         style={{
@@ -172,7 +181,7 @@ function AdminDashboard() {
               >
                 {item.icon}
               </div>
-
+ 
               <div
                 style={{
                   position: "relative",
@@ -189,7 +198,7 @@ function AdminDashboard() {
                 >
                   {item.title}
                 </div>
-
+ 
                 <div
                   style={{
                     fontSize: "32px",
@@ -205,7 +214,7 @@ function AdminDashboard() {
           </motion.div>
         ))}
       </div>
-
+ 
       <div
         style={{
           marginTop: "10px",
@@ -227,7 +236,7 @@ function AdminDashboard() {
           View Detailed Summary
         </button>
       </div>
-
+ 
       {/* Main Content */}
       <div
         style={{
@@ -306,12 +315,12 @@ function AdminDashboard() {
                     >
                       ×
                     </button>
-
+ 
                     <h2 style={{ marginTop: 0 }}>Detailed Summary</h2>
                     <p style={{ color: "var(--muted)", marginTop: "-6px" }}>
                       Overview of document status distribution.
                     </p>
-
+ 
                     <div
                       style={{
                         display: "grid",
@@ -357,7 +366,7 @@ function AdminDashboard() {
                             onMouseEnter={() => setHoveredSection("pending")}
                             onMouseLeave={() => setHoveredSection(null)}
                           />
-
+ 
                           <circle
                             cx="130"
                             cy="130"
@@ -377,7 +386,7 @@ function AdminDashboard() {
                             onMouseEnter={() => setHoveredSection("approved")}
                             onMouseLeave={() => setHoveredSection(null)}
                           />
-
+ 
                           <circle
                             cx="130"
                             cy="130"
@@ -397,7 +406,7 @@ function AdminDashboard() {
                             onMouseEnter={() => setHoveredSection("rejected")}
                             onMouseLeave={() => setHoveredSection(null)}
                           />
-
+ 
                           <circle
                             cx="130"
                             cy="130"
@@ -417,7 +426,7 @@ function AdminDashboard() {
                             onMouseEnter={() => setHoveredSection("revision")}
                             onMouseLeave={() => setHoveredSection(null)}
                           />
-
+ 
                           {/* center hole */}
                           <circle
                             cx="130"
@@ -426,7 +435,7 @@ function AdminDashboard() {
                             fill="rgba(255,255,255,0.95)"
                           />
                         </svg>
-
+ 
                         {/* Inner circle */}
                         <div
                           style={{
@@ -463,7 +472,7 @@ function AdminDashboard() {
                           </div>
                         </div>
                       </div>
-
+ 
                       {/* Stats in % format */}
                       <div style={{ display: "grid", gap: "12px" }}>
                         <div
@@ -489,7 +498,7 @@ function AdminDashboard() {
                           <span>Pending Approvals</span>
                           <span style={{ color: "#f59e0b" }}>25%</span>
                         </div>
-
+ 
                         <div
                           onMouseEnter={() => setHoveredSection("approved")}
                           onMouseLeave={() => setHoveredSection(null)}
@@ -513,7 +522,7 @@ function AdminDashboard() {
                           <span>Approved</span>
                           <span style={{ color: "#16a34a" }}>25%</span>
                         </div>
-
+ 
                         <div
                           onMouseEnter={() => setHoveredSection("rejected")}
                           onMouseLeave={() => setHoveredSection(null)}
@@ -537,7 +546,7 @@ function AdminDashboard() {
                           <span>Rejected</span>
                           <span style={{ color: "#dc2626" }}>25%</span>
                         </div>
-
+ 
                         <div
                           onMouseEnter={() => setHoveredSection("revision")}
                           onMouseLeave={() => setHoveredSection(null)}
@@ -608,7 +617,7 @@ function AdminDashboard() {
                       }}
                     />
                   </div>
-
+ 
                   <div>
                     <div style={{ color: "var(--muted)", fontSize: "13px" }}>
                       {item.label}
@@ -649,7 +658,7 @@ function AdminDashboard() {
                   background: "white",
                 }}
               />
-
+ 
               <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
@@ -668,11 +677,11 @@ function AdminDashboard() {
                 <option value="Rejected">Rejected</option>
               </select>
             </div>
-
+ 
             <div style={{ display: "grid", gap: "14px", marginTop: "18px" }}>
               {filteredDocuments.map((doc, index) => {
                 const badge = getStatusStyle(doc.status);
-
+ 
                 return (
                   <motion.div
                     key={index}
@@ -696,16 +705,59 @@ function AdminDashboard() {
                       }}
                     >
                       <div>
-                        <div style={{ fontWeight: 800, marginBottom: "4px" }}>
-                          {doc.title}
-                        </div>
-                        <div
-                          style={{ color: "var(--muted)", fontSize: "14px" }}
-                        >
-                          Owner: {doc.owner}
-                        </div>
-                      </div>
-
+  <h3 style={{ margin: 0 }}>{doc.title}</h3>
+ 
+  <div
+    style={{
+      marginTop: "12px",
+      display: "grid",
+      gap: "10px",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        color: "var(--muted)",
+      }}
+    >
+      <FiUser size={16} />
+      <span>
+        <strong>Submitted by :</strong> {doc.owner}
+      </span>
+    </div>
+ 
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        color: "var(--muted)",
+      }}
+    >
+      <FiFolder size={16} />
+      <span>
+        <strong>Category :</strong> {doc.category}
+      </span>
+    </div>
+ 
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        color: "var(--muted)",
+      }}
+    >
+      <FiCalendar size={16} />
+      <span>
+        <strong>Submitted :</strong> {doc.date}
+      </span>
+    </div>
+  </div>
+</div>
+ 
                       <div
                         style={{
                           padding: "8px 12px",
@@ -730,5 +782,5 @@ function AdminDashboard() {
     </motion.div>
   );
 }
-
+ 
 export default AdminDashboard;

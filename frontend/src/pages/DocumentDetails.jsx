@@ -22,40 +22,41 @@ import pendingIcon from "../images/pending.png";
 import rejectedIcon from "../images/rejected.png";
 import acceptedIcon from "../images/approved.png";
 import commentIcon from "../images/comments.png";
-
+ 
 function DocumentDetails() {
   const location = useLocation();
   const [currentStage, setCurrentStage] = useState("Initial Level");
   const [timelineStatus, setTimelineStatus] = useState("active");
-
+  const [newComment, setNewComment] = useState("");
+ 
   const handleReject = () => {
     setTimelineStatus("rejected");
   };
-
+ 
   const handleRevision = () => {
     setTimelineStatus("revision");
   };
-
+ 
   const handleAccept = () => {
     const currentIndex = stages.findIndex((s) => s.name === currentStage);
-
+ 
     if (currentIndex < stages.length - 1) {
       setCurrentStage(stages[currentIndex + 1].name);
       setTimelineStatus("active");
     }
   };
-
+ 
   const stages = [
     { name: "Initial Level", icon: level1Icon },
     { name: "Compliance Level", icon: level2Icon },
     { name: "Final Level", icon: level3Icon },
   ];
-
+ 
   const isApprover = location.pathname.includes("/approver/");
-
+ 
   const isSubmitter = location.pathname.includes("/submitter/");
   const isAdmin = location.pathname.includes("/admin/");
-
+ 
   const documentData = {
     title: "Project Name",
     description: "Proposal for the new company project.",
@@ -65,7 +66,7 @@ function DocumentDetails() {
     submittedBy: "John Doe",
     submittedAt: "Today, 10:30 AM",
   };
-
+ 
   const comments = [
     {
       name: "Sarah Khan",
@@ -88,7 +89,7 @@ function DocumentDetails() {
       time: "1 hour ago",
     },
   ];
-
+ 
   const history = [
     {
       step: "Submitted",
@@ -119,7 +120,7 @@ function DocumentDetails() {
       color: "#16a34a",
     },
   ];
-
+ 
   const getStatusStyle = (status) => {
     if (status === "Approved") {
       return {
@@ -148,9 +149,9 @@ function DocumentDetails() {
       icon: <FiInfo />,
     };
   };
-
+ 
   const statusStyle = getStatusStyle(documentData.status);
-
+ 
   const cardStyle = {
     background: "rgba(255,255,255,0.82)",
     backdropFilter: "blur(12px)",
@@ -159,7 +160,7 @@ function DocumentDetails() {
     padding: "24px",
     boxShadow: "var(--shadow-soft)",
   };
-
+ 
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
@@ -201,7 +202,7 @@ function DocumentDetails() {
               {statusStyle.icon}
               {documentData.status}
             </div>
-
+ 
             <h1
               style={{ margin: 0, fontSize: "34px", letterSpacing: "-0.03em" }}
             >
@@ -240,7 +241,7 @@ function DocumentDetails() {
                 </span>
                 {documentData.submittedBy}
               </div>
-
+ 
               <div
                 style={{
                   padding: "10px 14px",
@@ -257,7 +258,7 @@ function DocumentDetails() {
                 </span>
                 {documentData.submittedAt}
               </div>
-
+ 
               <div
                 style={{
                   padding: "10px 14px",
@@ -276,7 +277,7 @@ function DocumentDetails() {
               </div>
             </div>
           </div>
-
+ 
           <div
             style={{
               minWidth: "180px",
@@ -324,7 +325,7 @@ function DocumentDetails() {
               >
                 <FiDownload />
               </motion.button>
-
+ 
               <span
                 style={{
                   fontFamily: "'Kaushan Script', cursive",
@@ -361,7 +362,7 @@ function DocumentDetails() {
           <h2 style={{ margin: 0, flexShrink: 0, paddingLeft: "25px" }}>
             Actions
           </h2>
-
+ 
           <div
             style={{
               display: "flex",
@@ -388,7 +389,7 @@ function DocumentDetails() {
             >
               Rejected
             </button>
-
+ 
             <button
               onClick={handleRevision}
               style={{
@@ -406,7 +407,7 @@ function DocumentDetails() {
             >
               Revision Requested
             </button>
-
+ 
             <button
               onClick={handleAccept}
               style={{
@@ -441,7 +442,7 @@ function DocumentDetails() {
         <h2 style={{ marginTop: 0, marginBottom: "18px" }}>
           Approval Timeline
         </h2>
-
+ 
         <div
           style={{
             display: "flex",
@@ -457,7 +458,7 @@ function DocumentDetails() {
             const isActive = index === currentIndex;
             const isCompleted = index < currentIndex;
             const isPending = index > currentIndex;
-
+ 
             return (
               <Fragment key={stage}>
                 <div
@@ -476,7 +477,7 @@ function DocumentDetails() {
                       : isCompleted
                       ? "2px solid #16a34a"
                       : "1px solid var(--border)",
-
+ 
                     background: isActive
                       ? timelineStatus === "revision"
                         ? "rgba(245,158,11,0.08)"
@@ -486,12 +487,12 @@ function DocumentDetails() {
                       : isCompleted
                       ? "transparent"
                       : "rgba(248,250,252,0.8)",
-
+ 
                     boxShadow:
                       isActive && timelineStatus === "active"
                         ? "0 0 0 4px rgba(37,99,235,0.12)"
                         : "none",
-
+ 
                     animation:
                       isActive && timelineStatus === "active"
                         ? "blinkBorder 1s infinite"
@@ -526,7 +527,7 @@ function DocumentDetails() {
                     <span>{stage.name}</span>
                   </div>
                 </div>
-
+ 
                 {index !== stages.length - 1 && (
                   <div
                     style={{
@@ -548,7 +549,7 @@ function DocumentDetails() {
           })}
         </div>
       </motion.div>
-
+ 
       {/* Comments and History */}
       <div
         style={{
@@ -574,17 +575,17 @@ function DocumentDetails() {
             }}
           >
             <img
-  src={commentIcon}
-  alt="Comments"
-  style={{
-    width: "40px",
-    height: "40px",
-    objectFit: "contain",
-  }}
-/>
+              src={commentIcon}
+              alt="Comments"
+              style={{
+                width: "40px",
+                height: "40px",
+                objectFit: "contain",
+              }}
+            />
             <h2 style={{ margin: 0 }}>Comments</h2>
           </div>
-
+ 
           <div
             className="comments-scroll"
             style={{
@@ -624,8 +625,61 @@ function DocumentDetails() {
               </div>
             ))}
           </div>
+          {isApprover && (
+            <div
+              style={{
+                marginTop: "18px",
+                paddingTop: "18px",
+                borderTop: "1px solid var(--border)",
+              }}
+            >
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Write your comment..."
+                rows={4}
+                style={{
+                  width: "100%",
+                  padding: "14px",
+                  borderRadius: "14px",
+                  border: "1px solid var(--border)",
+                  resize: "vertical",
+                  outline: "none",
+                  background: "rgba(255,255,255,0.95)",
+                }}
+              />
+ 
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: "12px",
+                }}
+              >
+                <button
+                  onClick={() => {
+                    if (!newComment.trim()) return;
+                    console.log("Send comment:", newComment);
+                    setNewComment("");
+                  }}
+                  style={{
+                    padding: "12px 18px",
+                    border: "none",
+                    borderRadius: "12px",
+                    background:
+                      "linear-gradient(135deg, var(--primary), var(--accent))",
+                    color: "#fff",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  Send Comment
+                </button>
+              </div>
+            </div>
+          )}
         </motion.div>
-
+ 
         {/* Approval History */}
         <motion.div
           initial={{ opacity: 0, x: 10 }}
@@ -656,7 +710,7 @@ function DocumentDetails() {
             />
             <h2 style={{ margin: 0 }}>Approval History</h2>
           </div>
-
+ 
           <div
             className="approval-timeline-scroll"
             style={{
@@ -686,7 +740,7 @@ function DocumentDetails() {
                   borderRadius: "999px",
                 }}
               />
-
+ 
               {history.map((step, index) => (
                 <div
                   key={index}
@@ -716,7 +770,7 @@ function DocumentDetails() {
                       zIndex: 2,
                     }}
                   />
-
+ 
                   <div
                     style={{
                       flex: 1,
@@ -757,5 +811,7 @@ function DocumentDetails() {
     </motion.div>
   );
 }
-
+ 
 export default DocumentDetails;
+ 
+ 

@@ -11,7 +11,8 @@ import {
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-
+import { FiUser, FiFolder, FiCalendar } from "react-icons/fi";
+ 
 function SubmitterDashboard() {
   const [search, setSearch] = useState("");
   const [activeSegment, setActiveSegment] = useState(null);
@@ -24,7 +25,7 @@ function SubmitterDashboard() {
   const pending = 6;
   const revision = 3;
   const rejected = 2;
-
+ 
   const approvedPercent = ((approved / totalDocuments) * 100).toFixed(1);
   const pendingPercent = ((pending / totalDocuments) * 100).toFixed(1);
   const revisionPercent = ((revision / totalDocuments) * 100).toFixed(1);
@@ -51,11 +52,13 @@ function SubmitterDashboard() {
       color: "#dc2626",
     },
   ];
-
+ 
   const documents = [
     {
       id: 1,
-      title: "Project Proposal",
+      title: "Project Name 1",
+      submittedBy: "John Doe",
+      category: "Project Proposal",
       status: "Pending Approval",
       version: "v1",
       date: "Today",
@@ -63,7 +66,9 @@ function SubmitterDashboard() {
     },
     {
       id: 2,
-      title: "Budget Request",
+      title: "Project Name 2",
+      submittedBy: "Sarah Khan",
+      category: "Budget Request",
       status: "Approved",
       version: "v2",
       date: "Yesterday",
@@ -71,7 +76,9 @@ function SubmitterDashboard() {
     },
     {
       id: 3,
-      title: "Policy Document",
+      title: "Project Name 3",
+      submittedBy: "Ali Ahmed",
+      category: "Policy Document",
       status: "Revision Required",
       version: "v3",
       date: "2 days ago",
@@ -79,16 +86,19 @@ function SubmitterDashboard() {
     },
     {
       id: 4,
-      title: "Leave Application",
+      title: "Project Name 4",
+      submittedBy: "Emma Watson",
+      category: "Leave Application",
       status: "Rejected",
       version: "v1",
       date: "3 days ago",
     },
   ];
+ 
   const filteredDocuments = documents.filter((doc) =>
     doc.title.toLowerCase().includes(search.toLowerCase())
   );
-
+ 
   const getStatusStyle = (status) => {
     if (status === "Approved") {
       return {
@@ -96,27 +106,27 @@ function SubmitterDashboard() {
         color: "#16a34a",
       };
     }
-
+ 
     if (status === "Pending Approval") {
       return {
         bg: "rgba(245,158,11,.12)",
         color: "#f59e0b",
       };
     }
-
+ 
     if (status === "Revision Required") {
       return {
         bg: "rgba(37,99,235,.12)",
         color: "#2563eb",
       };
     }
-
+ 
     return {
       bg: "rgba(220,38,38,.12)",
       color: "#dc2626",
     };
   };
-
+ 
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
@@ -144,7 +154,7 @@ function SubmitterDashboard() {
               👋
             </span>
           </h2>
-
+ 
           <p
             style={{
               margin: "4px 0 0",
@@ -155,7 +165,7 @@ function SubmitterDashboard() {
           </p>
         </div>
       </div>
-
+ 
       <div
         style={{
           display: "flex",
@@ -165,7 +175,7 @@ function SubmitterDashboard() {
         }}
       >
         {/* DONUT CHART */}
-
+ 
         <div
           style={{
             background: "transparent",
@@ -179,7 +189,7 @@ function SubmitterDashboard() {
           }}
         >
           <h2 style={{ marginTop: 0 }}>Document Status Overview</h2>
-
+ 
           <div
             className="chart-legend-wrapper"
             style={{
@@ -225,7 +235,7 @@ function SubmitterDashboard() {
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
-
+ 
               <div
                 style={{
                   position: "absolute",
@@ -239,7 +249,7 @@ function SubmitterDashboard() {
                 <div style={{ fontSize: "40px", fontWeight: 800 }}>
                   {activeSegment ? activeSegment.value : totalDocuments}
                 </div>
-
+ 
                 <div
                   style={{
                     color: "#64748b",
@@ -251,7 +261,7 @@ function SubmitterDashboard() {
                 </div>
               </div>
             </div>
-
+ 
             <div
               className="chart-summary-stats"
               style={{
@@ -276,7 +286,7 @@ function SubmitterDashboard() {
                   {totalDocuments}
                 </div>
               </div>
-
+ 
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span style={{ fontWeight: 600, color: "#334155" }}>
                   Approved
@@ -285,7 +295,7 @@ function SubmitterDashboard() {
                   {approvedPercent}%
                 </span>
               </div>
-
+ 
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span style={{ fontWeight: 600, color: "#334155" }}>
                   Pending
@@ -294,7 +304,7 @@ function SubmitterDashboard() {
                   {pendingPercent}%
                 </span>
               </div>
-
+ 
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span style={{ fontWeight: 600, color: "#334155" }}>
                   Revision Required
@@ -303,7 +313,7 @@ function SubmitterDashboard() {
                   {revisionPercent}%
                 </span>
               </div>
-
+ 
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span style={{ fontWeight: 600, color: "#334155" }}>
                   Rejected
@@ -316,7 +326,7 @@ function SubmitterDashboard() {
           </div>
         </div>
       </div>
-
+ 
       <div
         style={{
           width: "100%",
@@ -347,7 +357,7 @@ function SubmitterDashboard() {
           >
             <div>
               <h2 style={{ margin: 0 }}>My Documents</h2>
-
+ 
               <p
                 style={{
                   margin: "6px 0 0",
@@ -357,7 +367,7 @@ function SubmitterDashboard() {
                 Track document status and continue workflows.
               </p>
             </div>
-
+ 
             <div
               style={{
                 display: "flex",
@@ -377,7 +387,7 @@ function SubmitterDashboard() {
                   minWidth: "280px",
                 }}
               />
-
+ 
               <Link
                 to="/upload"
                 style={{
@@ -396,11 +406,11 @@ function SubmitterDashboard() {
               </Link>
             </div>
           </div>
-
+ 
           <div style={{ display: "grid", gap: "16px" }}>
             {filteredDocuments.map((doc, index) => {
               const badgeStyle = getStatusStyle(doc.status);
-
+ 
               return (
                 <motion.div
                   key={doc.id}
@@ -424,21 +434,59 @@ function SubmitterDashboard() {
                     }}
                   >
                     <div>
-                      <h3 style={{ margin: "0 0 8px" }}>{doc.title}</h3>
-                      <p style={{ margin: "0 0 8px", color: "var(--muted)" }}>
-                        Version: {doc.version}
-                      </p>
-                      <p
+                      <h3 style={{ margin: 0 }}>{doc.title}</h3>
+ 
+                      <div
                         style={{
-                          margin: 0,
-                          color: "var(--muted)",
-                          fontSize: "14px",
+                          marginTop: "12px",
+                          display: "grid",
+                          gap: "10px",
                         }}
                       >
-                        Updated: {doc.date}
-                      </p>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            color: "var(--muted)",
+                          }}
+                        >
+                          <FiUser size={16} />
+                          <span>
+                            <strong>Submitted by :</strong> {doc.submittedBy}
+                          </span>
+                        </div>
+ 
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            color: "var(--muted)",
+                          }}
+                        >
+                          <FiFolder size={16} />
+                          <span>
+                            <strong>Category :</strong> {doc.category}
+                          </span>
+                        </div>
+ 
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            color: "var(--muted)",
+                          }}
+                        >
+                          <FiCalendar size={16} />
+                          <span>
+                            <strong>Submitted :</strong> {doc.date}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-
+ 
                     <div
                       style={{
                         padding: "8px 12px",
@@ -453,7 +501,7 @@ function SubmitterDashboard() {
                       {doc.status}
                     </div>
                   </div>
-
+ 
                   <div
                     style={{
                       marginTop: "14px",
@@ -474,10 +522,10 @@ function SubmitterDashboard() {
                     >
                       View Details <FiArrowRight />
                     </Link>
-
+ 
                     {doc.status === "Revision Required" && (
                       <Link
-                        to="/upload"
+                        to={`/upload?resubmitId=${doc.id}&version=${doc.version}`}
                         style={{
                           display: "inline-flex",
                           alignItems: "center",
@@ -510,5 +558,7 @@ function SubmitterDashboard() {
     </motion.div>
   );
 }
-
+ 
 export default SubmitterDashboard;
+ 
+ 
